@@ -21,6 +21,7 @@ Some of the touchscreen functions added:
 * a long touch (>4-5 secs) to the time display region will enter configuration mode (previously triggered via a double-reset of the ESP)
 * a long touch (>4-5 secs) to the current conditions region (weather icon / temperature) will initiate the screen calibration routine again
 * a long touch (>4-5 secs) to the bottom panel region will bring up a detailed ESP status screen, showing heap, WiFi connection info, last reset error condition, etc. (adapted from Daniel Eichorn...thanks Dani!)
+
 All of these touch displays return to the normal "rotating" screens by touching the screen again.
 
 A few of the other changes / enhancements:
@@ -72,14 +73,14 @@ Library Referenced | Description | Link
 **<WiFiManager.h>** | WiFi Manager library by Tzapu | <https://github.com/tzapu/WiFiManager>
 **<ArduinoJson.h>** | JSON library by Bblanchon | <https://github.com/bblanchon/ArduinoJson>
 **<JsonListener.h>** | JSON streaming parser by Squix78 | <https://github.com/squix78/json-streaming-parser>
-**<WundergroundClient.h>** | Weather Underground client library by Squix78 | <https://github.com/squix78/esp8266-weather-station>
+**<WundergroundClient.h>** | Weather Underground client library by Squix78 **Note (1)** | <https://github.com/squix78/esp8266-weather-station>
 **<simpleDSTadjust.h>**	| Simple daylight-savings time adjustment by Neptune | <https://github.com/neptune2/simpleDSTadjust>
 **"TimeZone.h"** | Time zone conversion library by JChristensen | <https://github.com/JChristensen/Timezone>
 **"DHT.h"** | Adafruit's DHT sensor library | <https://github.com/adafruit/DHT-sensor-library>
 **<Adafruit_Sensor.h>** | Adafruit's Unified Sensor library | <https://github.com/adafruit/Adafruit_Sensor>
 
 (Note that though I included the SPIFFS library in the list above, I elected not to document all of the other core libraries.)  Also note that though I do not use the DHT sensor in my setup (nor Thinkspeak as in the original code), I've maintained the bulk of this code in order to make it easier for those that elect to use it.  As a result, the Adafruit libraries for the DHT sensors and their Unified Sensor library are required for compilation.
-
+**Note 1**  Until my customizations are merged, replace the library contents with my changes located in the **Weather Underground Client Library** folder
 
 ##  Quick Start
 
@@ -95,6 +96,6 @@ Library Referenced | Description | Link
 1.  Run the ESP8266 Data Upload tool located in the Tools menu of the IDE.  You should receive information in the IDE indicating the copying of the icon folders located in the "/data" folder to the ESP8266.
 1.  On first run, the station will run a display calibration routine to map the touchscreen coordinates to the display coordinates.  Follow the on-screen instructions by touching the screen targets as indicated in the upper-left and lower-right corners of the screen.  The last step in the calibration allows you to see how closely the coordinates are mapped by displaying the screen coordinates as you touch various locations on the screen.  This will time out and continue startup if the screen is not touched for 5 seconds.
 1.  The initial configuration is done via a configuration portal or webpage. The first time you bring up the app, if it cannot find previously stored settings, it will bring up an access point and configuration portal. Look for an access point that begins with "ESP..." and connect to it. The access point is password protected, with a default password as "portal-pass".  It is a captive portal, and in most cases a browser will open automatically connecting to the portal after connection. If it doesn't, then type the address "192.168.4.1" in a browser to bring it up once connected to the AP. It should be fairly self-explanatory at that point; enter your WiFi AP/password credentials, WeatherUnderground API key, WU weather station, timezone city from the list, etc., and click "Save". The ESP should restart and try to connect using the new configuration. There's other features of the configuration portal, such as scanning for all available access points and allowing you to just select one, but again, it's pretty self-explanatory once you see the configuration page.  (If you've done this before with a prior release, you'll need to reconfigure and save the settings, as the SPIFFS format will erase the configuration file stored previously.  Note that there are a number of new configuration parameters here from prior versions to allow tweaking the timing of the mid- and bottom-panels to your liking, and to control automatic restarting of the station to clear fragmented heap.
-1.  If it doesn't connect, then you can at any time bring up the configuration portal again manually by double-clicking the reset button on the WeMos D1 mini. (This doesn't have to be done really fast, just two resets within 10 seconds.) You should also see information on the LCD display when it comes up in config mode.
+1.  If it doesn't connect, then you can at any time bring up the configuration portal again manually by touching the time-display region of the screen and holding for 4-5 seconds. You should also see information on the LCD display when it comes up in config mode.
 1.  The initial defaults for the configuration portal are located on the "Settings.h" tab as well. If you look through this, you'll find parameters for the WU API key, the timezone city, weather station, etc. These are currently set for my location and preferences, but you can change them here if you want also.
 
